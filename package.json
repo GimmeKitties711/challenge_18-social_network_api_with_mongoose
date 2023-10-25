@@ -1,0 +1,30 @@
+{
+  "name": "challenge_18-social_network_api_with_mongoose",
+  "version": "1.0.0",
+  "description": "This application uses Mongoose to build a backend framework that a social media website would use.",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GimmeKitties711/challenge_18-social_network_api_with_mongoose.git"
+  },
+  "keywords": [
+    "Mongoose",
+    "MongoDB",
+    "social",
+    "media"
+  ],
+  "author": "GimmeKitties711",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/GimmeKitties711/challenge_18-social_network_api_with_mongoose/issues"
+  },
+  "homepage": "https://github.com/GimmeKitties711/challenge_18-social_network_api_with_mongoose#readme",
+  "dependencies": {
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "mongoose": "^7.6.3"
+  }
+}
