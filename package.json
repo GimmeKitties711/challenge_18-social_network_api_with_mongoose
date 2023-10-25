@@ -2,9 +2,9 @@
   "name": "challenge_18-social_network_api_with_mongoose",
   "version": "1.0.0",
   "description": "This application uses Mongoose to build a backend framework that a social media website would use.",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
-    "test": "test"
+    "start": "node server.js"
   },
   "repository": {
     "type": "git",
