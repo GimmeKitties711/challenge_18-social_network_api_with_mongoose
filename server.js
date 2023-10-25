@@ -1,5 +1,5 @@
-require("dotenv").config(); // import dotenv
-const express = require("express"); // import express
+require("dotenv").config();
+const express = require("express");
 
 // const userRoutes = require("./routes/user");
 const connection = require("./config/connection");
