@@ -9,21 +9,26 @@ thoughtRouter.get('/', (req, res) => {
     .then((result) => { // this is called a callback function
         res.json(result);
     }).catch((error) => {
+        console.log("Error finding all thoughts: ", error);
         res.status(500).end(error);
     });
 });
 
 thoughtRouter.get('/:id', (req, res) => {
-
+    const { id } = req.params;
+    Thought.findOne({ _id: id})
+    .then((result) => {
+        res.json(result);
+    })
+    .catch((error) => {
+        console.log("Error finding thought: ", error);
+        res.status(500).end(error);
+    })
 });
 
 thoughtRouter.post('/', (req, res) => {
     // create a thought
     // add the thought to the user's thoughts array field
-    // in the body
-    // $addToSet: {
-    //     { }
-    // }
     Thought.create(req.body).then((result) => {
         User.findOneAndUpdate(
             { _id: req.body.userId },
