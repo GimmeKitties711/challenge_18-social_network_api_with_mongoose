@@ -11,8 +11,8 @@ const app = express(); // create an instance of express
 
 app.use(express.json()); // use express.json() to parse the body of requests
 
-app.use("/api/user", userRouter);
-app.use("/api/thought", thoughtRouter);
+app.use("/api/users", userRouter);
+app.use("/api/thoughts", thoughtRouter);
 
 connection.once("open", () => { // once() only allows an event to fire one time
     app.listen(PORT, () => {
