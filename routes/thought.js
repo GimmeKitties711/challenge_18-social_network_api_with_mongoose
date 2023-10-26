@@ -44,7 +44,7 @@ thoughtRouter.post('/', (req, res) => {
         res.json(result);
     }).catch((error) => {
         console.log("Error creating thought: ", error);
-        res.status(500).end();
+        res.status(500).end(error);
     });
 });
 
