@@ -71,7 +71,9 @@ userRouter.delete('/:id', (req, res) => {
         { _id: id },
         {
             $pull: {
-                thoughts: User.findOne({ _id: id }).then((result) => { return result; })
+                //thoughts: User.findOne({ _id: id })
+                //thoughts: User.findOne({ _id: id }).username
+                //thoughts: User.findOne({ _id: id }).then((result) => { return result; })
             }
         },
         { new: true }
