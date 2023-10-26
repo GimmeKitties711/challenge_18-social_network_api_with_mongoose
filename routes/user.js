@@ -2,6 +2,7 @@ const { Router } = require("express");
 const userRouter = Router();
 
 const User = require('../models/user');
+const Thought = require('../models/thought');
 
 userRouter.get('/', (req, res) => {
     User.find({}) // no need for where clause as we simply want all users
@@ -71,7 +72,7 @@ userRouter.delete('/:id', (req, res) => {
     )
     .then((result) => {
         console.log('thingy2: ', result);
-        thoughtSchema.deleteMany({ username: result.username });
+        Thought.deleteMany({ username: result.username });
     })
     .then((result) => {
         res.json("User has been deleted successfully.");
