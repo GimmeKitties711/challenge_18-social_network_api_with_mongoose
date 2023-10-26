@@ -63,21 +63,16 @@ userRouter.put('/:id', (req, res) => {
 
 userRouter.delete('/:id', (req, res) => {
     const { id } = req.params;
-    console.log('thingy: ', id)
-    //console.log('thingy2: ', User.findOne({ _id: id }))
-    console.log('new thingy3: ', User.findOne({ _id: id }).then((result) => { return result; }))
+    console.log('thingy1: ', id)
 
     User.findOneAndDelete(
         { _id: id },
-        {
-            $pull: {
-                //thoughts: User.findOne({ _id: id })
-                //thoughts: User.findOne({ _id: id }).username
-                //thoughts: User.findOne({ _id: id }).then((result) => { return result; })
-            }
-        },
         { new: true }
     )
+    .then((result) => {
+        console.log('thingy2: ', result);
+        thoughtSchema.deleteMany({ username: result.username });
+    })
     .then((result) => {
         res.json("User has been deleted successfully.");
     }).catch((error) => {
