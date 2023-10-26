@@ -26,7 +26,7 @@ userRouter.get('/:id', (req, res) => {
 });
 
 userRouter.post('/', (req, res) => {
-    const { username, email, thoughts, friends } = req.body;
+    const { username, email } = req.body;
 
     User.create({
         username,
@@ -77,5 +77,39 @@ userRouter.delete('/:id', (req, res) => {
 // BONUS: Remove a user's associated thoughts when deleted.
 
 // the put and delete routes were informed by the following video: hhttps://www.youtube.com/watch?v=cedhqsQ7FZs
+
+userRouter.post('/:userId/friends/:friendId', (req, res) => {
+    User.findOneAndUpdate(
+        { _id: req.params.userId },
+        {
+            $addToSet: {
+                friends: req.params.friendId
+            }
+        },
+        { new: true }
+    ).then((result) => {
+        res.json(result);
+    }).catch((error) => {
+        console.log("Error adding friend to user: ", error);
+        res.status(500).end(error);
+    });
+});
+
+userRouter.delete('/:userId/friends/:friendId', (req, res) => {
+    User.findOneAndUpdate(
+        { _id: req.params.userId },
+        {
+            $pull: {
+                friends: req.params.friendId
+            }
+        },
+        { new: true }
+    ).then((result) => {
+        res.json(result);
+    }).catch((error) => {
+        console.log("Error removing friend from user: ", error);
+        res.status(500).end(error);
+    });
+})
 
 module.exports = userRouter;
