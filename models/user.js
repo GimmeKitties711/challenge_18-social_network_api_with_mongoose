@@ -1,8 +1,18 @@
 const mongoose = require("mongoose");
 
 const userSchema = new mongoose.Schema({
-    username: String,
-    email: String,
+    username: {
+        type: String,
+        unique: true,
+        required: true,
+        trim: true // removes whitespace from both ends of a string
+    },
+    email: {
+        type: String,
+        unique: true,
+        required: true,
+        // match: // regex to validate email
+    },
     thoughts: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: "Thought"
@@ -20,4 +30,9 @@ const userModel = mongoose.model('user', userSchema); // create a model from the
 
 module.exports = userModel;
 
-// this code was informed by the following video: https://youtu.be/_ST946yIFSw?si=Lx0DSM51Bi52-NB-
+/*
+this code was informed by the following videos:
+
+1. https://youtu.be/_ST946yIFSw?si=Lx0DSM51Bi52-NB-
+2. https://www.youtube.com/watch?v=cedhqsQ7FZs
+*/
