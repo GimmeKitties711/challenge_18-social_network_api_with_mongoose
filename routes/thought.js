@@ -79,4 +79,41 @@ thoughtRouter.delete('/:id', (req, res) => {
     });
 });
 
+thoughtRouter.post('/:thoughtId/reactions', (req, res) => {
+
+    Thought.findOneAndUpdate(
+        { _id: req.params.thoughtId },
+        {
+            $addToSet: {
+                reactions: req.body
+            }
+        },
+        { runValidators: true, new: true }
+    ).then((result) => {
+        res.json(result);
+    }).catch((error) => {
+        console.log("Error adding reaction to thought: ", error);
+        res.status(500).end(error);
+    });
+});
+
+thoughtRouter.delete('/:thoughtId/reactions/:reactionId', (req, res) => {
+    Thought.findOneAndUpdate(
+        { _id: req.params.thoughtId },
+        {
+            $pull: {
+                reactions: {
+                    reactionId: req.params.reactionId
+                }
+            }
+        },
+        { new: true }
+    ).then((result) => {
+        res.json(result);
+    }).catch((error) => {
+        console.log("Error deleting reaction from thought: ", error);
+        res.status(500).end(error);
+    });
+});
+
 module.exports = thoughtRouter;
