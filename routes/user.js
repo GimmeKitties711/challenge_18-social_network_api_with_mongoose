@@ -11,7 +11,7 @@ userRouter.get('/', (req, res) => {
     }).catch((error) => {
         console.log("Error finding all users: ", error);
         res.status(500).end(error);
-    })
+    });
 });
 
 userRouter.get('/:id', (req, res) => {
