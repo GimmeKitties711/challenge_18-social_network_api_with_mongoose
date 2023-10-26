@@ -18,6 +18,7 @@ userRouter.get('/:id', (req, res) => {
     const { id } = req.params;
     User.findOne({ _id: id }) // returns an object
     .then((result) => {
+        console.log('important thingy: ', result.username)
         res.json(result);
     }).catch((error) => {
         console.log("Error finding user: ", error);
@@ -62,9 +63,17 @@ userRouter.put('/:id', (req, res) => {
 
 userRouter.delete('/:id', (req, res) => {
     const { id } = req.params;
+    console.log('thingy: ', id)
+    //console.log('thingy2: ', User.findOne({ _id: id }))
+    console.log('new thingy3: ', User.findOne({ _id: id }).then((result) => { return result; }))
 
     User.findOneAndDelete(
         { _id: id },
+        {
+            $pull: {
+                thoughts: User.findOne({ _id: id }).then((result) => { return result; })
+            }
+        },
         { new: true }
     )
     .then((result) => {
