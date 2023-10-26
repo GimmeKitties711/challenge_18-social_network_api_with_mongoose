@@ -72,7 +72,14 @@ userRouter.delete('/:id', (req, res) => {
     )
     .then((result) => {
         console.log('thingy2: ', result);
-        Thought.deleteMany({ username: result.username });
+        return Thought.deleteMany({ _id: { $in: result.thoughts }}); 
+        /*
+        result.thoughts is an array that contains all of the ids of the thoughts associated with the user. the parameter of deleteMany() is:
+        
+        { _id: { $in: result.thoughts }}
+        
+        this means that deleteMany() will delete all thoughts whose ids are contained in result.thoughts.
+        */
     })
     .then((result) => {
         res.json("User has been deleted successfully.");
@@ -81,7 +88,6 @@ userRouter.delete('/:id', (req, res) => {
         res.status(500).end(error);
     });
 });
-// BONUS: Remove a user's associated thoughts when deleted.
 
 // the put and delete routes were informed by the following video: hhttps://www.youtube.com/watch?v=cedhqsQ7FZs
 
