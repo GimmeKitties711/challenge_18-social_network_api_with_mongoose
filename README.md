@@ -29,7 +29,7 @@ Once you perform these actions, the following packages will be installed:
 `mongoose @7.6.3`
 
 ## Usage
-A walkthrough video that demonstrates the application can be found [here](https://www.youtube.com/watch?v=S-9U2JyAipU&t=221s).
+A walkthrough video that demonstrates the application can be found [here](https://www.youtube.com/watch?v=S-9U2JyAipU).
 
 The rest of this section will explain how to test the routes in Insomnia, how they should be written, and when to keep special cases in mind.
 
