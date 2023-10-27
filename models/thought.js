@@ -38,7 +38,7 @@ const reactionSchema = new mongoose.Schema({
     },
     id: false
 });
-// source for how to use getter functions in mongoose: https://mongoosejs.com/docs/tutorials/getters-setters.html
+// source for how to use getter functions in Mongoose: https://mongoosejs.com/docs/tutorials/getters-setters.html
 
 const thoughtSchema = new mongoose.Schema({
     thoughtText: {
