@@ -53,7 +53,7 @@ userSchema.virtual('friendCount').get(function() {
 });
 userSchema.virtual('thoughtCount').get(function() {
     return this.thoughts.length;
-});
+}); // added because I felt like it would be useful to know how many thoughts a user has
 // source for how to use virtuals in mongoose: https://mongoosejs.com/docs/tutorials/virtuals.html
 
 const userModel = mongoose.model('user', userSchema); // create a model from the user schema
