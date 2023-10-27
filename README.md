@@ -1,7 +1,7 @@
 # Challenge 18: Social Network API with Mongoose
 
 ## Description
-Social media is a huge part of most people's lives. The systems that power the most popular sites have to store and manage an enormous amount of data efficiently. This project explores the technologies that connect users, friends, thoughts, and reactions with each other. You can use Insomnia to test the routes used to retrieve or change data. This project taught me how to use Mongoose to store and manipulate data, use schemas to build models, and connect to an Express server through Mongoose technologies.
+Social media is a huge part of most people's lives. The systems that power the most popular sites have to store and manage an enormous amount of data efficiently. This project explores the technologies that connect users, friends, thoughts, and reactions with each other. You can use Insomnia to test the routes used to retrieve or change data. This project taught me how to use Mongoose to store and manipulate data, use schemas to build models, and connect to an Express server with the help of Mongoose.
 
 ## Table of Contents
 - [Description](#description)
@@ -22,7 +22,7 @@ Then run (type and enter) `npm install`:
 
 ![Run npm install](Assets/run_npm_install.png)
 
-once you do that, the following packages will be installed:
+Once you perform these actions, the following packages will be installed:
 
 `dotenv @ 16.3.1`<br>
 `express @4.18.2`<br>
@@ -34,7 +34,7 @@ A walkthrough video that demonstrates the application can be found [here](https:
 The rest of this section will explain how to test the routes in Insomnia, how they should be written, and when to keep special cases in mind.
 
 **Get All Users**<br>
-`http://localhost:3001/api/users`
+`http://localhost:3001/api/users/`
 
 ![Get All Users](Assets/get_all_users.png)
 
@@ -48,7 +48,7 @@ The rest of this section will explain how to test the routes in Insomnia, how th
 
 For any route that requires a request body, any text that contains a backslash `\` or a double quote `"` must be escaped by an additional backslash. See the `Usage` section of [my Challenge 13 readme](https://github.com/GimmeKitties711/challenge_13-internet_retail_back_end) for a more detailed explanation.
 
-You are required to enter both a username and an email to create a new user.
+You are required to enter both a username and a valid email to create a new user.
 
 **Special case:** Leaving out either field will result in validation errors, and your new user will not be accepted.
 
@@ -59,7 +59,9 @@ You are required to enter both a username and an email to create a new user.
 **Update User by ID**<br>
 `http://localhost:3001/api/users/id`
 
-**Special case:** If the request body is empty, or there is no body at all, it will not result in an error but the user will not undergo any changes. However, unlike creating a new user, updating a user does not require that both fields are supplied. You can choose to change only one of them.
+Unlike `Create New User`, `Update User by ID` does not require that both fields are supplied. You can choose to change only one of them.
+
+**Special case:** If the request body is empty, or there is no body at all, it will not result in an error but the user will not undergo any changes.
 
 ![Update User by ID](Assets/update_user_by_id.png)
 
@@ -75,9 +77,9 @@ If you delete a user, you will not be able to update or get that same user later
 **Add Friend by ID**<br>
 `http://localhost:3001/api/users/userId/friends/friendId`
 
-In this route, the user associated with `userId` adds the user associated with the `friendId` to their friends list. Adding a friend is **not mutual.** If User 1 adds User 2, User 2 does not automatically add User 1.
+In this route, the user associated with `userId` adds the user associated with `friendId` to their friends list. Adding a friend is **not mutual.** If User 1 adds User 2, User 2 does not automatically add User 1 in response.
 
-**Special case:** You are allowed to add friends by IDs that do not exist as long as the character length is correct. However, it is not recommended to do this as no actual user is tied to the ID and it would likely cause confusion.
+**Special case:** You are allowed to add friends with IDs that do not exist as long as the character length is correct. However, it is not recommended to do this as no actual user is tied to the ID and it would likely cause confusion.
 
 ![Add Friend by ID](Assets/add_friend_by_id.png)
 
@@ -91,17 +93,17 @@ This route removes a friend from the friends array of the user specified by `use
 ![Delete Friend by ID](Assets/delete_friend_by_id.png)
 
 **Get All Thoughts**<br>
-`http://localhost:3001/api/thoughts`
+`http://localhost:3001/api/thoughts/`
 
 ![Get All Thoughts](Assets/get_all_thoughts.png)
 
 **Get Thought by ID**<br>
-`https://localhost:3001/api/thoughts/id`
+`http://localhost:3001/api/thoughts/id`
 
 ![Get Thought by ID](Assets/get_thought_by_id.png)
 
 **Create New Thought**<br>
-`http://localhost:3001/api/thoughts`
+`http://localhost:3001/api/thoughts/`
 
 The following fields are required in the request body:
 
@@ -113,13 +115,13 @@ The following fields are required in the request body:
 }
 `
 
-`thoughtText` must be a string between 1 and 280 characters. If the length of `thoughtText` falls outside of this range, it results in an error.
+`thoughtText` must be a string between 1 and 280 characters. If the length of `thoughtText` falls outside of this range, it results in an error. Leaving out `userId` will not result in an error, but no user will gain a thought.
 
 **Special case:** The username you enter can actually be different from the username corresponding to `userId`. Even if you write new thoughts under a different username, they are still stored in the thoughts array of the correct user (the user corresponding to `userId`).
 
 ![Create New Thought](Assets/create_new_thought_2.png)
 
-**Update thought by ID**<br>
+**Update Thought by ID**<br>
 `http://localhost:3001/api/thoughts/id`
 
 You are allowed to change one or both of the following fields:
@@ -135,7 +137,7 @@ You are allowed to change one or both of the following fields:
 
 ![Update Thought by ID](Assets/update_thought_by_id.png)
 
-**Delete thought by ID**<br>
+**Delete Thought by ID**<br>
 `http://localhost:3001/api/thoughts/id`
 
 **Special case:** Attempting to delete a thought with an ID that does not exist will result in an error.
@@ -152,7 +154,7 @@ Just like `thoughtText`, `reactionBody` has a character range of 1 to 280. You a
 **Delete Reaction by ID**<br>
 `http://localhost:3001/thoughts/thoughtId/reactions/reactionId`
 
-Unlike `Create New Reaction`, `Delete Reaction by ID` requires both a `thoughtId` and a `reactionId`. This route removes the reaction specified by `reactionId` from the reactions array of the thought associated with `thoughtId`.
+Unlike `Create New Reaction`, `Delete Reaction by ID` requires both a `thoughtId` and a `reactionId`. This route removes the reaction specified by `reactionId` from the reactions array of the thought specified by `thoughtId`.
 
 **Special case:** If you attempt to delete a reaction with an ID that does not exist, you will not receive an error but the thought's reactions array will remain unchanged.
 
@@ -174,7 +176,7 @@ The following web resources helped me write the code for this project:
 9. [How to use getter functions in Mongoose](https://mongoosejs.com/docs/tutorials/getters-setters.html)
 
 ## Contributing
-I would be happy to hear any ideas as to how this project can be improved or expanded on.
+I would be happy to hear any ideas as to how this project can be improved or expanded on, such as allowing a user to delete all of their thoughts at once.
 
 ## Tests
 No tests have been written for this application.
