@@ -51,6 +51,9 @@ const userSchema = new mongoose.Schema({
 userSchema.virtual('friendCount').get(function() {
     return this.friends.length;
 });
+userSchema.virtual('thoughtCount').get(function() {
+    return this.thoughts.length;
+});
 // source for how to use virtuals in mongoose: https://mongoosejs.com/docs/tutorials/virtuals.html
 
 const userModel = mongoose.model('user', userSchema); // create a model from the user schema
