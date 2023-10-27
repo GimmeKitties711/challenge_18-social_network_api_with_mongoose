@@ -36,7 +36,6 @@ userRouter.post('/', (req, res) => {
         thoughts: [],
         friends: [] // when a user is created, they do not have any thoughts or friends yet
         },
-        { new: true }
     ).then((result) => {
         res.json(result);
     }).catch((error) => {
