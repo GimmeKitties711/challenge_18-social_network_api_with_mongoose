@@ -3,8 +3,10 @@ const mongoose = require("mongoose");
 function formatDate(date) {
     let options = { month: 'long', day: 'numeric', year: 'numeric' };
     return `${date.toLocaleDateString(undefined, options)} at ${date.toLocaleTimeString()}`;
+    // undefined means use the default locale
     // example: October 25, 2023 at 8:47:48 PM
     // note: my timezone is PDT. your results may vary if your timezone is different.
+    
 
     // source for toLocaleDateString(): https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toLocaleDateString
     // source for toLocaleTimeString(): https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toLocaleTimeString
@@ -18,6 +20,7 @@ const reactionSchema = new mongoose.Schema({
     reactionBody: {
         type: String,
         required: true,
+        minlength: 1, // added because it does not make sense to allow an empty reaction
         maxlength: 280
     },
     username: {

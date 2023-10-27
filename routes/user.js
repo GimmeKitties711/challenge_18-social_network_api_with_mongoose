@@ -5,41 +5,43 @@ const User = require('../models/user');
 const Thought = require('../models/thought');
 
 userRouter.get('/', (req, res) => {
-    User.find({}) // no need for where clause as we simply want all users
+    User.find({}) // no need for a where clause as we simply want all users
     // returns an array of objects
     .then((result) => {
         res.json(result);
     }).catch((error) => {
         console.log("Error finding all users: ", error);
-        res.status(500).end(error);
+        res.status(400).json(error);
     });
 });
 
 userRouter.get('/:id', (req, res) => {
-    const { id } = req.params;
+    const { id } = req.params; // req.params is an object that contains the parameters passed in the url
+
     User.findOne({ _id: id }) // returns an object
     .then((result) => {
-        console.log('important thingy: ', result.username)
         res.json(result);
     }).catch((error) => {
         console.log("Error finding user: ", error);
-        res.status(500).end(error);
+        res.status(400).json(error);
     });
 });
 
 userRouter.post('/', (req, res) => {
     const { username, email } = req.body;
 
-    User.create({
-        username,
+    User.create(
+        {username,
         email,
         thoughts: [],
-        friends: []
-    }).then((result) => {
+        friends: [] // when a user is created, they do not have any thoughts or friends yet
+        },
+        { runValidators: true, new: true }
+    ).then((result) => {
         res.json(result);
     }).catch((error) => {
         console.log("Error creating user: ", error);
-        res.status(500).end(error);
+        res.status(400).json(error);
     });
 });
 
@@ -51,41 +53,39 @@ userRouter.put('/:id', (req, res) => {
     User.findOneAndUpdate(
         { _id: id },
         {
-            $set: req.body,
+            $set: req.body, // req.body will contain a username, an email, or both. in any case, we want to take the data from req.body and use it to update the user's information
         },
-        { new: true } // return the updated document
+        { runValidators: true, new: true } // return the updated document
     ).then((result) => {
         res.json(result);
     }).catch((error) => {
         console.log("Error updating user: ", error);
-        res.status(500).end(error);
+        res.status(400).json(error);
     });
 });
 
 userRouter.delete('/:id', (req, res) => {
     const { id } = req.params;
-    console.log('thingy1: ', id)
 
     User.findOneAndDelete(
         { _id: id },
         { new: true }
     )
     .then((result) => {
-        console.log('thingy2: ', result);
         return Thought.deleteMany({ _id: { $in: result.thoughts }}); 
         /*
         result.thoughts is an array that contains all of the ids of the thoughts associated with the user. the parameter of deleteMany() is:
         
         { _id: { $in: result.thoughts }}
         
-        this means that deleteMany() will delete all thoughts whose ids are contained in result.thoughts.
+        this means that deleteMany() will delete all thoughts whose ids are contained in the result.thoughts array.
         */
     })
     .then((result) => {
         res.json("User has been deleted successfully.");
     }).catch((error) => {
         console.log("Error deleting user: ", error);
-        res.status(500).end(error);
+        res.status(400).json(error);
     });
 });
 
@@ -96,7 +96,7 @@ userRouter.post('/:userId/friends/:friendId', (req, res) => {
         { _id: req.params.userId },
         {
             $addToSet: {
-                friends: req.params.friendId
+                friends: req.params.friendId // add the id of the friend to the user's friends array
             }
         },
         { new: true }
@@ -104,7 +104,7 @@ userRouter.post('/:userId/friends/:friendId', (req, res) => {
         res.json(result);
     }).catch((error) => {
         console.log("Error adding friend to user: ", error);
-        res.status(500).end(error);
+        res.status(400).json(error);
     });
 });
 
@@ -113,7 +113,7 @@ userRouter.delete('/:userId/friends/:friendId', (req, res) => {
         { _id: req.params.userId },
         {
             $pull: {
-                friends: req.params.friendId
+                friends: req.params.friendId // remove the id of the friend from the user's friends array
             }
         },
         { new: true }
@@ -121,7 +121,7 @@ userRouter.delete('/:userId/friends/:friendId', (req, res) => {
         res.json(result);
     }).catch((error) => {
         console.log("Error removing friend from user: ", error);
-        res.status(500).end(error);
+        res.status(400).json(error);
     });
 })
 

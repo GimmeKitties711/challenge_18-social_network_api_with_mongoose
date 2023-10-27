@@ -17,7 +17,7 @@ app.use("/api/thoughts", thoughtRouter);
 connection.once("open", () => { // once() only allows an event to fire one time
     app.listen(PORT, () => {
         console.log(`Server running on port ${PORT}`);
-    }); // app.listen() is inside connection.once() to prevent express from listening before the mongoose connection is made
+    }); // app.listen() is inside connection.once() to prevent express from listening before the connection to mongoose is made
 });
 
 // this code was informed by the following video: https://youtu.be/_ST946yIFSw?si=Lx0DSM51Bi52-NB-
