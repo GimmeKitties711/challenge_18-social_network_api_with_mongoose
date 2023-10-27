@@ -78,6 +78,8 @@ userRouter.delete('/:id', (req, res) => {
         { _id: { $in: result.thoughts }}
 
         this means that deleteMany() will delete all thoughts whose ids are contained in the result.thoughts array.
+
+        source for the $in operator: https://www.mongodb.com/docs/manual/reference/operator/query/in/
         */
     })
     .then((result) => {

@@ -71,7 +71,23 @@ thoughtRouter.delete('/:id', (req, res) => {
     Thought.findOneAndDelete(
         { _id: id },
         { new: true }
-    ).then((result) => {
+    )
+    .then((result) => {
+        return User.findOneAndUpdate(
+            {
+                thoughts: { $in: result._id }
+                // find the user whose thoughts array contains the id of the deleted thought
+            },
+            {
+                $pull: {
+                    thoughts: result._id
+                    // remove the id of the deleted thought from the user's thoughts array
+                }
+            },
+            { new: true }
+        )
+    })
+    .then((result) => {
         res.json("Thought has been deleted successfully.");
     }).catch((error) => {
         console.log("Error deleting thought: ", error);
