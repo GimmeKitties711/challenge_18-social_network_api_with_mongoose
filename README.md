@@ -24,7 +24,7 @@ Then run (type and enter) `npm install`:
 
 Once you perform these actions, the following packages will be installed:
 
-`dotenv @ 16.3.1`<br>
+`dotenv @16.3.1`<br>
 `express @4.18.2`<br>
 `mongoose @7.6.3`
 
