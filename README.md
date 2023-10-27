@@ -1,7 +1,7 @@
 # Challenge 18: Social Network API with Mongoose
 
 ## Description
-Social media is a huge part of most people's lives, more so than ever before.  The systems that power the most popular sites have to store and manage an enormous amount of data efficiently. This project explores the technologies that connect users, thoughts, friends, and reactions with each other. The routes for retrieving or changing data can be tested in Insomnia. This project taught me how to use Mongoose to store data in documents, use schemas and virtuals to build models, and connect to an express server using mongoose connection.
+Social media is a huge part of most people's lives. The systems that power the most popular sites have to store and manage an enormous amount of data efficiently. This project explores the technologies that connect users, friends, thoughts, and reactions with each other. You can use Insomnia to test the routes used to retrieve or change data. This project taught me how to use Mongoose to store and manipulate data, use schemas to build models, and connect to an Express server through Mongoose technologies.
 
 ## Table of Contents
 - [Description](#description)
@@ -14,66 +14,79 @@ Social media is a huge part of most people's lives, more so than ever before.  T
 - [Questions](#questions)
 
 ## Installation
-Open the root directory in the Integrated Terminal:
+Get started by opening the root directory in the Integrated Terminal:
 
 ![Open package.json in Integrated Terminal](Assets/open_package_json_in_integrated_terminal.png)
 
-Then run (type and enter) `npm install`
+Then run (type and enter) `npm install`:
 
 ![Run npm install](Assets/run_npm_install.png)
 
 once you do that, the following packages will be installed:
 
-`dotenv @ 16.3.1`
-`express @4.18.2`
+`dotenv @ 16.3.1`<br>
+`express @4.18.2`<br>
 `mongoose @7.6.3`
 
 ## Usage
 A walkthrough video that demonstrates the application can be found [here](https://www.youtube.com/watch?v=S-9U2JyAipU&t=221s).
 
-there are some thingies you have to keep in mind as you test the insomnia routes:
+The rest of this section will explain how to test the routes in Insomnia, how they should be written, and when to keep special cases in mind.
 
-Get All Users `http://localhost:3001/api/users`
+**Get All Users**
+`http://localhost:3001/api/users`
 
 ![Get All Users](Assets/get_all_users.png)
 
-Get User by ID: `http://localhost:3001/api/users/id`
-Functions the same as Get All Users without the ID
+**Get User by ID**
+`http://localhost:3001/api/users/id`
 
 ![Get User by ID](Assets/get_user_by_id.png)
 
-Create New User: `http://localhost:3001/api/users/`
+**Create New User**
+`http://localhost:3001/api/users/`
 
-1. Any text that contains a backslash or double quote must be escaped by an additional backslash. See the Usage section of [my Challenge 13 readme](https://github.com/GimmeKitties711/challenge_13-internet_retail_back_end) for details.
-2. You are required to enter both a username and an email for your new user to be accepted. Leaving out either field will result in validation errors
+For any route that requires a request body, any text that contains a backslash `\` or a double quote `"` must be escaped by an additional backslash. See the `Usage` section of [my Challenge 13 readme](https://github.com/GimmeKitties711/challenge_13-internet_retail_back_end) for a more detailed explanation.
+
+You are required to enter both a username and an email to create a new user.
+
+**Special case:** Leaving out either field will result in validation errors, and your new user will not be accepted.
+
+**Special case:** Your new user will also not be accepted if their username or email is exactly the same as the username or email of any other user. This is because the user schema requires that those fields are unique.
 
 ![Create New User](Assets/create_new_user.png)
 
-Update User by ID: `http://localhost:3001/api/users`
-the body of the request, if it is empty or no body, the user will not undergo any changes (api/users/id). However, if you do decide to make changes, you do not have to change both fields. You can choose to change only one of them
+**Update User by ID**
+`http://localhost:3001/api/users/id`
 
-You cannot create the exact same user twice (same username and email) if you do it will cause an error.
+**Special case:** If the request body is empty, or there is no body at all, it will not result in an error but the user will not undergo any changes. However, unlike creating a new user, updating a user does not require that both fields are supplied. You can choose to change only one of them.
 
 ![Update User by ID](Assets/update_user_by_id.png)
 
-Delete User by ID `http://localhost:3001/api/users/id`
+**Delete User by ID**
+`http://localhost:3001/api/users/id`
 
-deleting a user by id will cause update and get user by id to fail
+If you delete a user, you will not be able to update or get that same user later on.
+
+**Special case:** Attempting to delete a user with an ID that does not exist will result in an error.
 
 ![Delete User by ID](Assets/delete_user_by_id.png)
 
-Add Friend by ID `http://localhost:3001/api/usrss/userId/friends/friendId`
-the user associated with userId adds the user associated with the friendId. Adding a friend is not mutual. If User 1 adds User 2 to their friends list, that does not automatically mean that User 2 would add User 1 in turn. You are allowed to add friends whose ids don't exist (like changing a few characters in a user's id) as long as the character length is correct; however, it is not recommended to do this as no actual user is tied to the mutilated id and it would causer confusion.
+**Add Friend by ID**
+`http://localhost:3001/api/users/userId/friends/friendId`
 
-Attempting to delete a user with an ID that does not exist will result in an error.
+In this route, the user associated with `userId` adds the user associated with the `friendId` to their friends list. Adding a friend is **not mutual.** If User 1 adds User 2, User 2 does not automatically add User 1.
+
+**Special case:** You are allowed to add friends by IDs that do not exist as long as the character length is correct. However, it is not recommended to do this as no actual user is tied to the ID and it would likely cause confusion.
 
 ![Add Friend by ID](Assets/add_friend_by_id.png)
 
-Delete Friend by ID `http://localhost:3001/api/users/userId/friends/friendId`
+**Delete Friend by ID**
+`http://localhost:3001/api/users/userId/friends/friendId`
 
-opposite to Add Friend by ID removes a friends from userId's friends array.
+This route removes a friend from the friends array of the user specified by `userId`.
 
-Attempting to delete a friend with an ID that does not exist will not result in an error but it will leave the user's friends array unchanged.
+**Special case:** Attempting to delete a friend with an ID that does not exist will not result in an error, but it will leave the user's friends array unchanged.
 
 ![Delete Friend by ID](Assets/delete_friend_by_id.png)
 
@@ -116,7 +129,7 @@ If you attempt to delete a reaction by an ID that does not exist, you will not r
 ![Delete Reaction by ID](Assets/delete_reaction_by_id.png)
 
 ## Credits
-I forgot to mention in the last part that if you try to delete a reaction that does not exist the thought's reactions array stays the same but if you try to delete a thought that doesn't exist it throws an error, same for users. Received assistance from instructor Robbert Wijtman insteructor in the *#02-ask-the-class* Slack channel. Also receievd assistance from AskBCS assistants Joem, Zack, and Shaun. The following web resources helped me write the code for this project:
+Received assistance from instructor Robbert Wijtman in the *#02-ask-the-class* Slack channel. Also received assistance from AskBCS assistants Joem, Zack, and Shaun. The following web resources helped me write the code for this project:
 
 1. [YouTube: MONGOOSE - Setting up Mongoose with Express and creating a Model](https://youtu.be/_ST946yIFSw?si=Lx0DSM51Bi52-NB-)
 2. [YouTube: MONGOOSE: Creation and Fetching Data](https://youtu.be/E1w9kthC4YQ?si=UzMJ1r5x3R3ufF2p)
