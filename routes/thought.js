@@ -88,7 +88,7 @@ thoughtRouter.delete('/:id', (req, res) => {
         )
     })
     .then((result) => {
-        res.json("Thought has been deleted successfully.");
+        res.json("Thought and its associated reactions have been deleted successfully.");
     }).catch((error) => {
         console.log("Error deleting thought: ", error);
         res.status(400).json(error);

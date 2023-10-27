@@ -41,6 +41,8 @@ The rest of this section will explain how to test the routes in Insomnia, how th
 **Get User by ID**<br>
 `http://localhost:3001/api/users/id`
 
+**Important:** In these screenshots, I have changed the actual IDs to the word `id` (or something similar) in the routes for display purposes. In practice, you would be required to enter real, existing IDs for the routes to function properly.
+
 ![Get User by ID](Assets/get_user_by_id.png)
 
 **Create New User**<br>
@@ -78,6 +80,8 @@ If you delete a user, you will not be able to update or get that same user later
 `http://localhost:3001/api/users/userId/friends/friendId`
 
 In this route, the user associated with `userId` adds the user associated with `friendId` to their friends list. Adding a friend is **not mutual.** If User 1 adds User 2, User 2 does not automatically add User 1 in response.
+
+**Special case:** You are allowed to add yourself as a friend. You can also remove yourself from your friends list, which is discussed in the next route.
 
 **Special case:** You are allowed to add friends with IDs that do not exist as long as the character length is correct. However, it is not recommended to do this as no actual user is tied to the ID and it would likely cause confusion.
 

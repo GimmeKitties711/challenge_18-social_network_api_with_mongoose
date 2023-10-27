@@ -83,7 +83,7 @@ userRouter.delete('/:id', (req, res) => {
         */
     })
     .then((result) => {
-        res.json("User has been deleted successfully.");
+        res.json("User and their associated thoughts have been deleted successfully.");
     }).catch((error) => {
         console.log("Error deleting user: ", error);
         res.status(400).json(error);
