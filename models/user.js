@@ -5,7 +5,7 @@ const userSchema = new mongoose.Schema({
         type: String,
         unique: true,
         required: true,
-        trim: true // remove whitespace from both ends of a string
+        trim: true // remove whitespace from both ends of the username
     },
     email: {
         type: String,
@@ -58,7 +58,7 @@ const userModel = mongoose.model('user', userSchema); // create a model from the
 module.exports = userModel;
 
 /*
-this code was informed by the following videos:
+this code was inspired by the following videos:
 
 1. https://youtu.be/_ST946yIFSw?si=Lx0DSM51Bi52-NB-
 2. https://www.youtube.com/watch?v=cedhqsQ7FZs

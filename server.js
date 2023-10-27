@@ -20,4 +20,4 @@ connection.once("open", () => { // once() only allows an event to fire one time
     }); // app.listen() is inside connection.once() to prevent express from listening before the connection to mongoose is made
 });
 
-// this code was informed by the following video: https://youtu.be/_ST946yIFSw?si=Lx0DSM51Bi52-NB-
+// this code was inspired by the following video: https://youtu.be/_ST946yIFSw?si=Lx0DSM51Bi52-NB-

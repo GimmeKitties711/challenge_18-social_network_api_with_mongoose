@@ -84,7 +84,7 @@ thoughtRouter.post('/:thoughtId/reactions', (req, res) => {
         { _id: req.params.thoughtId },
         {
             $addToSet: {
-                reactions: req.body // req.body will contain a reactionBody and a username. this line of code will add the reaction to the reactions array of the thought associated with thoughtId
+                reactions: req.body // req.body will contain a reactionBody and a username. this line of code adds the reaction to the reactions array of the thought associated with thoughtId.
             }
         },
         { runValidators: true, new: true }

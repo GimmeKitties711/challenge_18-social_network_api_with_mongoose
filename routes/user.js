@@ -16,7 +16,7 @@ userRouter.get('/', (req, res) => {
 });
 
 userRouter.get('/:id', (req, res) => {
-    const { id } = req.params; // req.params is an object that contains the parameters passed in the url
+    const { id } = req.params; // req.params is an object that contains the parameters passed into the route
 
     User.findOne({ _id: id }) // returns an object
     .then((result) => {
@@ -45,7 +45,7 @@ userRouter.post('/', (req, res) => {
     });
 });
 
-// this code, up to the post route, was informed by the following video: https://youtu.be/E1w9kthC4YQ?si=UzMJ1r5x3R3ufF2p
+// this code, up to the post route, was inspired by the following video: https://youtu.be/E1w9kthC4YQ?si=UzMJ1r5x3R3ufF2p
 
 userRouter.put('/:id', (req, res) => {
     const { id } = req.params;
@@ -72,12 +72,12 @@ userRouter.delete('/:id', (req, res) => {
         { new: true }
     )
     .then((result) => {
-        return Thought.deleteMany({ _id: { $in: result.thoughts }}); 
+        return Thought.deleteMany({ _id: { $in: result.thoughts }});
         /*
-        result.thoughts is an array that contains all of the ids of the thoughts associated with the user. the parameter of deleteMany() is:
-        
+        result.thoughts is an array that contains the ids of all the thoughts associated with the user. the parameter of deleteMany() is:
+
         { _id: { $in: result.thoughts }}
-        
+
         this means that deleteMany() will delete all thoughts whose ids are contained in the result.thoughts array.
         */
     })
@@ -89,7 +89,7 @@ userRouter.delete('/:id', (req, res) => {
     });
 });
 
-// the put and delete routes were informed by the following video: hhttps://www.youtube.com/watch?v=cedhqsQ7FZs
+// the put and delete routes were inspired by the following video: https://www.youtube.com/watch?v=cedhqsQ7FZs
 
 userRouter.post('/:userId/friends/:friendId', (req, res) => {
     User.findOneAndUpdate(
@@ -123,6 +123,6 @@ userRouter.delete('/:userId/friends/:friendId', (req, res) => {
         console.log("Error removing friend from user: ", error);
         res.status(400).json(error);
     });
-})
+});
 
 module.exports = userRouter;

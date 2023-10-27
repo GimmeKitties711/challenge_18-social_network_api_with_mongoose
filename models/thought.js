@@ -6,7 +6,6 @@ function formatDate(date) {
     // undefined means use the default locale
     // example: October 25, 2023 at 8:47:48 PM
     // note: my timezone is PDT. your results may vary if your timezone is different.
-    
 
     // source for toLocaleDateString(): https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toLocaleDateString
     // source for toLocaleTimeString(): https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toLocaleTimeString
