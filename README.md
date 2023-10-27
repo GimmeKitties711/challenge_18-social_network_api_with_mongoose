@@ -33,17 +33,17 @@ A walkthrough video that demonstrates the application can be found [here](https:
 
 The rest of this section will explain how to test the routes in Insomnia, how they should be written, and when to keep special cases in mind.
 
-**Get All Users**
+**Get All Users**<br>
 `http://localhost:3001/api/users`
 
 ![Get All Users](Assets/get_all_users.png)
 
-**Get User by ID**
+**Get User by ID**<br>
 `http://localhost:3001/api/users/id`
 
 ![Get User by ID](Assets/get_user_by_id.png)
 
-**Create New User**
+**Create New User**<br>
 `http://localhost:3001/api/users/`
 
 For any route that requires a request body, any text that contains a backslash `\` or a double quote `"` must be escaped by an additional backslash. See the `Usage` section of [my Challenge 13 readme](https://github.com/GimmeKitties711/challenge_13-internet_retail_back_end) for a more detailed explanation.
@@ -56,14 +56,14 @@ You are required to enter both a username and an email to create a new user.
 
 ![Create New User](Assets/create_new_user.png)
 
-**Update User by ID**
+**Update User by ID**<br>
 `http://localhost:3001/api/users/id`
 
 **Special case:** If the request body is empty, or there is no body at all, it will not result in an error but the user will not undergo any changes. However, unlike creating a new user, updating a user does not require that both fields are supplied. You can choose to change only one of them.
 
 ![Update User by ID](Assets/update_user_by_id.png)
 
-**Delete User by ID**
+**Delete User by ID**<br>
 `http://localhost:3001/api/users/id`
 
 If you delete a user, you will not be able to update or get that same user later on.
@@ -72,7 +72,7 @@ If you delete a user, you will not be able to update or get that same user later
 
 ![Delete User by ID](Assets/delete_user_by_id.png)
 
-**Add Friend by ID**
+**Add Friend by ID**<br>
 `http://localhost:3001/api/users/userId/friends/friendId`
 
 In this route, the user associated with `userId` adds the user associated with the `friendId` to their friends list. Adding a friend is **not mutual.** If User 1 adds User 2, User 2 does not automatically add User 1.
@@ -81,7 +81,7 @@ In this route, the user associated with `userId` adds the user associated with t
 
 ![Add Friend by ID](Assets/add_friend_by_id.png)
 
-**Delete Friend by ID**
+**Delete Friend by ID**<br>
 `http://localhost:3001/api/users/userId/friends/friendId`
 
 This route removes a friend from the friends array of the user specified by `userId`.
@@ -90,46 +90,78 @@ This route removes a friend from the friends array of the user specified by `use
 
 ![Delete Friend by ID](Assets/delete_friend_by_id.png)
 
-GET ALL THOUGHTS `http://localhost:3001/api/thoughts`
+**Get All Thoughts**<br>
+`http://localhost:3001/api/thoughts`
 
 ![Get All Thoughts](Assets/get_all_thoughts.png)
 
-Get Thought by ID `https://localhost:3001/api/thoughts/id`
+**Get Thought by ID**<br>
+`https://localhost:3001/api/thoughts/id`
 
 ![Get Thought by ID](Assets/get_thought_by_id.png)
 
-Create New Thought `http://localhost:3001/api/thoughts`
+**Create New Thought**<br>
+`http://localhost:3001/api/thoughts`
 
-required: { thoughtText, username, userId } thoughtText is required to be between 1 and 280 characters (causes an error if 0 or 281 characters) The username you enter can actually be different from the username attached to the userId because even though you write the thoughts under a different username they are attached to the username associated with the userId. (pictures maybe)? just like posting a new user, if you leave fields out it will cause errors
+The following fields are required in the request body:
+
+`
+{
+  thoughtText,
+  username,
+  userId
+}
+`
+
+`thoughtText` must be a string between 1 and 280 characters. If the length of `thoughtText` falls outside of this range, it results in an error.
+
+**Special case:** The username you enter can actually be different from the username corresponding to `userId`. Even if you write new thoughts under a different username, they are still stored in the thoughts array of the correct user (the user corresponding to `userId`).
 
 ![Create New Thought](Assets/create_new_thought_2.png)
 
-Update thought by ID (maybe don't mention the post thingy and put thingy we did for users?) When you update the thought text you can change two things: (also for the get thought by id thingy) the thoughtText and the username. you are free to change either or both of them, and the thought after the changes will show in the result of a successfully request
+**Update thought by ID**<br>
+`http://localhost:3001/api/thoughts/id`
+
+You are allowed to change one or both of the following fields:
+
+`
+{
+  thoughtText,
+  username
+}
+`
+
+**Special case:** You cannot transfer a thought from one user to another. If you change the username to that of a different user, the thought will still be stored in the thoughts array of the original user. Attempting to change `userId` to that of another user will not result in an error, but it will have no effect.
 
 ![Update Thought by ID](Assets/update_thought_by_id.png)
 
-Delete thought by ID: `http://lcoalhost:3001/api/thoughuts/thoughtId`
+**Delete thought by ID**<br>
+`http://localhost:3001/api/thoughts/id`
 
-Attempting to delete a thought with an ID that does not exist will result in an error.
+**Special case:** Attempting to delete a thought with an ID that does not exist will result in an error.
 
 ![Delete Thought by ID](Assets/delete_thought_by_id.png)
 
-Create New Reaction `http://localhost:3001/thoughts/thoughtId/reactions`
+**Create New Reaction**<br>
+`http://localhost:3001/thoughts/thoughtId/reactions`
 
-reactionBody has a char limit of 1-280 just like thoughtText, and in addition you are required to enter a username to indicate who made the reaction.
+Just like `thoughtText`, `reactionBody` has a character range of 1 to 280. You are also required to enter a username to indicate who made the reaction.
 
 ![Create New Reaction](Assets/create_new_reaction.png)
 
-Delete Reaction by ID `http://localhost:3001/thoughts/thoughtId/reactions/reactionId`
+**Delete Reaction by ID**<br>
+`http://localhost:3001/thoughts/thoughtId/reactions/reactionId`
 
-unlike create new reaction, delete reaction by id requires both a thoughtId and a reactionId. Basically it will remove the reaction specified by reactionId from the thought associated with thoughtId's reaction array.
+Unlike `Create New Reaction`, `Delete Reaction by ID` requires both a `thoughtId` and a `reactionId`. This route removes the reaction specified by `reactionId` from the reactions array of the thought associated with `thoughtId`.
 
-If you attempt to delete a reaction by an ID that does not exist, you will not receive an error but the thought's reactions array will remain unchanged.
+**Special case:** If you attempt to delete a reaction with an ID that does not exist, you will not receive an error but the thought's reactions array will remain unchanged.
 
 ![Delete Reaction by ID](Assets/delete_reaction_by_id.png)
 
 ## Credits
-Received assistance from instructor Robbert Wijtman in the *#02-ask-the-class* Slack channel. Also received assistance from AskBCS assistants Joem, Zack, and Shaun. The following web resources helped me write the code for this project:
+Received assistance from instructor Robbert Wijtman in the *#02-ask-the-class* Slack channel. Also received help from AskBCS assistants Joem, Shaun, and Zack.
+
+The following web resources helped me write the code for this project:
 
 1. [YouTube: MONGOOSE - Setting up Mongoose with Express and creating a Model](https://youtu.be/_ST946yIFSw?si=Lx0DSM51Bi52-NB-)
 2. [YouTube: MONGOOSE: Creation and Fetching Data](https://youtu.be/E1w9kthC4YQ?si=UzMJ1r5x3R3ufF2p)
@@ -142,7 +174,7 @@ Received assistance from instructor Robbert Wijtman in the *#02-ask-the-class* S
 9. [How to use getter functions in Mongoose](https://mongoosejs.com/docs/tutorials/getters-setters.html)
 
 ## Contributing
-If anyone has any ideas on how this project can be improved or expanded on, I would be happy to hear them.
+I would be happy to hear any ideas as to how this project can be improved or expanded on.
 
 ## Tests
 No tests have been written for this application.
